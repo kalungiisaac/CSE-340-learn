@@ -1,0 +1,436 @@
+/* Main stylesheet for CSE 340 Service Network */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #A8D5E2;
+}
+
+/* Typography */
+h1 {
+    font-size: 2.5rem;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin: 1.5rem 0 1rem 0;
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 1.5rem;
+    color: #34495e;
+    margin: 1rem 0 0.5rem 0;
+    font-weight: 600;
+}
+
+p {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+/* Navigation */
+nav {
+    background-color: #2c3e50;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover,
+nav a:active {
+    background-color: #3498db;
+    text-decoration: none;
+}
+
+/* Main Content */
+main {
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: transparent;
+    min-height: calc(100vh - 200px);
+}
+
+/* Images */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.main-logo {
+    max-width: 400px;
+    height: auto;
+    margin: 2rem auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    display: block;
+}
+
+/* Logo Section */
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.logo-section .main-logo {
+    max-width: 300px;
+    min-width: 300px;
+    margin: 0;
+}
+
+.logo-text h2 {
+    font-size: 2rem;
+    color: #1a1a1a;
+    margin: 0 0 0.5rem 0;
+    font-weight: 700;
+}
+
+.logo-text p {
+    font-size: 1.5rem;
+    color: #1a1a1a;
+    margin: 0;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+/* Home Page Styles */
+main h1 {
+    color: #1a1a1a;
+    margin-bottom: 2rem;
+}
+
+main h2 {
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+main > p {
+    font-size: 1.05rem;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+/* Organization/Project Cards */
+.card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.card-logo {
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+/* Footer */
+footer {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 3rem;
+    font-size: 0.9rem;
+}
+
+footer p {
+    margin-bottom: 0.5rem;
+}
+
+/* Links */
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    nav {
+        padding: 1rem;
+    }
+
+    main {
+        padding: 1.5rem 1rem;
+    }
+
+    .card-container {
+        grid-template-columns: 1fr;
+    }
+
+    .logo-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .logo-section .main-logo {
+        max-width: 120px;
+    }
+
+    .organizations-container {
+        max-width: 100%;
+    }
+
+    .organization-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .projects-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    main {
+        padding: 1rem;
+    }
+
+    nav a {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Organizations Page Styles */
+.organizations-page {
+    background-color: #A8D5E2;
+    padding: 3rem 2rem;
+    min-height: calc(100vh - 200px);
+}
+
+.organizations-page h1 {
+    font-size: 2.5rem;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+}
+
+.intro-text {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.organizations-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 600px;
+}
+
+.organization-card {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.org-icon {
+    font-size: 3rem;
+    min-width: 150px;
+    text-align: center;
+}
+
+.org-icon img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    display: block;
+}
+
+.org-content h2 {
+    font-size: 1.3rem;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.org-content p {
+    font-size: 1rem;
+    color: #333;
+}
+
+.org-content a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.org-content a:hover {
+    text-decoration: underline;
+}
+
+/* Projects Page Styles */
+.projects-page {
+    background-color: #A8D5E2;
+    padding: 3rem 2rem;
+    min-height: calc(100vh - 200px);
+}
+
+.projects-page h1 {
+    font-size: 2.5rem;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+}
+
+.projects-page h2 {
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+}
+
+.projects-page > p {
+    font-size: 1.05rem;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.projects-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 900px;
+}
+
+.project-card {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.project-card h3 {
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+    margin-top: 0;
+}
+
+.project-card p {
+    color: #333;
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* About Page Styles */
+.about-page {
+    background-color: #A8D5E2;
+    padding: 3rem 2rem;
+    min-height: calc(100vh - 200px);
+}
+
+.about-page h1 {
+    font-size: 2.5rem;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+}
+
+.about-page h2 {
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+}
+
+.about-page > p {
+    font-size: 1.05rem;
+    color: #333;
+    margin-bottom: 2rem;
+    max-width: 800px;
+}
+
+.button{
+    background-color: #2f4a5cc0;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
