@@ -1,0 +1,20 @@
+<%- include('../partials/header') %>
+
+<main class="error-page">
+    <div class="page-card">
+        <h1><%= title %></h1>
+        <p>An unexpected error occurred. Our team has been notified.</p>
+
+        <% if (NODE_ENV === 'development') { %>
+            <section class="error-details">
+                <h2>Error Details</h2>
+                <p><strong>Message:</strong> <%= error %></p>
+                <pre><%= stack %></pre>
+            </section>
+        <% } %>
+
+        <p><a href="/">Return to home</a></p>
+    </div>
+</main>
+
+<%- include('../partials/footer') %>

@@ -12,6 +12,8 @@
 -- DROP EXISTING TABLES (Clean start)
 -- =====================================================
 -- Drop tables in correct order (respect foreign key dependencies)
+DROP TABLE IF EXISTS project_categories;
+
 DROP TABLE IF EXISTS service_project;
 
 DROP TABLE IF EXISTS category;
@@ -35,8 +37,9 @@ CREATE TABLE organization (
 -- =====================================================
 CREATE TABLE category (
     category_id SERIAL PRIMARY KEY,
-    name VARCHAR(150) NOT NULL,
-    description TEXT NOT NULL,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT,
+    icon_filename VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -61,25 +64,18 @@ CREATE INDEX idx_project_organization ON service_project (organization_id);
 CREATE INDEX idx_project_date ON service_project (project_date);
 
 -- =====================================================
--- CREATE CATEGORIES TABLE
+-- CREATE PROJECT_CATEGORIES TABLE (Junction table for many-to-many relationship)
 -- =====================================================
-
--- Drop table if exists (clean start)
-DROP TABLE IF EXISTS project_categories;
-
-DROP TABLE IF EXISTS category;
-
--- Create category table
-CREATE TABLE category (
-    category_id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    description TEXT,
-    icon_filename VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE project_categories (
+    project_id INT NOT NULL,
+    category_id INT NOT NULL,
+    PRIMARY KEY (project_id, category_id),
+    FOREIGN KEY (project_id) REFERENCES service_project (project_id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES category (category_id) ON DELETE CASCADE
 );
 
 -- =====================================================
--- INSERT SAMPLE CATEGORIES
+-- INSERT SAMPLE CATEGORY
 -- =====================================================
 INSERT INTO
     category (
@@ -355,6 +351,33 @@ VALUES (
         'Fairgrounds, 888 Expo Blvd',
         '2024-10-15'
     );
+
+-- =====================================================
+-- INSERT SAMPLE PROJECT-CATEGORY RELATIONSHIPS
+-- =====================================================
+INSERT INTO project_categories (project_id, category_id) VALUES
+(1, 1),   -- Community Center Renovation -> Education
+(1, 4),   -- Community Center Renovation -> Community Development
+(2, 2),   -- Park Cleanup Initiative -> Environment
+(3, 1),   -- School Library Makeover -> Education
+(4, 6),   -- Senior Center Garden -> Elderly Care
+(5, 4),   -- Homeless Shelter Repairs -> Community Development
+(6, 1),   -- Urban Farm Workshop -> Education
+(6, 2),   -- Urban Farm Workshop -> Environment
+(7, 5),   -- School Garden Installation -> Food Security
+(8, 5),   -- Farmers Market Setup -> Food Security
+(9, 2),   -- Composting Workshop -> Environment
+(10, 5),  -- Seed Distribution Day -> Food Security
+(11, 5),  -- Food Bank Sorting -> Food Security
+(12, 6),  -- Elderly Tech Support -> Elderly Care
+(13, 3),  -- Blood Drive Coordination -> Health & Wellness
+(14, 4),  -- Winter Coat Drive -> Community Development
+(15, 5),  -- Holiday Meal Preparation -> Food Security
+(16, 7),  -- Youth Mentorship Program -> Youth Programs
+(17, 2),  -- Community Orchard Planting -> Environment
+(18, 8),  -- Disaster Relief Training -> Disaster Relief
+(19, 4),  -- Housing Rehabilitation -> Community Development
+(20, 5);  -- Harvest Festival -> Food Security
 
 -- =====================================================
 -- VERIFY DATA
