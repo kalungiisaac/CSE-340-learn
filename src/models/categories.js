@@ -8,42 +8,43 @@ const tableExists = async (tableName) => {
     return result.rows[0]?.exists === true;
 };
 
-const DEFAULT_CATEGORIES = [
-    {
-        category_id: 1,
-        name: 'Education',
-        description: 'Projects focused on teaching, mentoring, and educational support for all ages.'
-    },
-    {
-        category_id: 2,
-        name: 'Environment',
-        description: 'Conservation, cleanup, and sustainability initiatives to protect our planet.'
-    },
-    {
-        category_id: 3,
-        name: 'Health & Wellness',
-        description: 'Healthcare services, mental health support, and wellness programs.'
-    }
-];
-
 const getAllCategories = async () => {
-    try {
-        if (!(await tableExists('category'))) {
-            return DEFAULT_CATEGORIES;
-        }
-
-        const query = `
-            SELECT category_id, name, description
-            FROM public.category
-            ORDER BY name;
-        `;
-
-        const result = await db.query(query);
-        return result.rows;
-    } catch (error) {
-        console.error('Unable to load categories (DB unavailable):', error.message);
-        return DEFAULT_CATEGORIES;
+    if (!(await tableExists('category'))) {
+        throw new Error('Database table "category" does not exist');
     }
+
+    const query = `
+        SELECT category_id, name, description
+        FROM public.category
+        ORDER BY name;
+    `;
+
+    const result = await db.query(query);
+    return result.rows;
 };
 
-export { getAllCategories };
+// Get a single category by ID
+const getCategoryById = async (categoryId) => {
+    const query = `
+        SELECT category_id, name, description
+        FROM public.category
+        WHERE category_id = $1;
+    `;
+    const result = await db.query(query, [categoryId]);
+    return result.rows[0];
+};
+
+// Get all service projects for a given category
+const getProjectsByCategoryId = async (categoryId) => {
+    const query = `
+        SELECT p.project_id, p.title, p.description, p.location, p.project_date, p.organization_id
+        FROM public.service_project p
+        JOIN public.project_categories pc ON p.project_id = pc.project_id
+        WHERE pc.category_id = $1
+        ORDER BY p.project_date;
+    `;
+    const result = await db.query(query, [categoryId]);
+    return result.rows;
+};
+
+export { getAllCategories, getCategoryById, getProjectsByCategoryId };

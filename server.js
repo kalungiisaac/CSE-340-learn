@@ -59,7 +59,7 @@ app.use((err, req, res, next) => {
     console.error('Error occurred:', err.message);
     console.error('Stack trace:', err.stack);
 
-    // Determine status and template
+    // Determine status and template 
     const status = err.status || 500;
     const template = status === 404 ? '404' : '500';
 

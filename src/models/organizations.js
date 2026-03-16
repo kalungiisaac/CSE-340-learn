@@ -1,42 +1,31 @@
 import db from './db.js';
 
-const DEFAULT_ORGANIZATIONS = [
-    {
-        organization_id: 1,
-        name: 'BrightFuture Builders',
-        description: 'A nonprofit focused on improving community infrastructure through sustainable construction projects.',
-        contact_email: 'info@brightfuturebuilders.org',
-        logo_filename: 'brightfuture-logo.png'
-    },
-    {
-        organization_id: 2,
-        name: 'GreenHarvest Growers',
-        description: 'An urban farming collective promoting food sustainability and education in local neighborhoods.',
-        contact_email: 'contact@greenharvest.org',
-        logo_filename: 'greenharvest-logo.png'
-    },
-    {
-        organization_id: 3,
-        name: 'UnityServe Volunteers',
-        description: 'A volunteer coordination group supporting local charities and service initiatives.',
-        contact_email: 'hello@unityserve.org',
-        logo_filename: 'unityserve-logo.png'
-    }
-];
-
 const getAllOrganizations = async () => {
-    try {
-        const query = `
-            SELECT organization_id, name, description, contact_email, logo_filename
-            FROM public.organization;
-        `;
+    const query = `
+        SELECT organization_id, name, description, contact_email, logo_filename
+        FROM public.organization;
+    `;
 
-        const result = await db.query(query);
-        return result.rows;
-    } catch (error) {
-        console.error('Unable to load organizations (DB unavailable):', error.message);
-        return DEFAULT_ORGANIZATIONS;
-    }
+    const result = await db.query(query);
+    return result.rows;
 };
+const getOrganizationDetails = async (organizationId) => {
+      const query = `
+      SELECT
+        organization_id,
+        name,
+        description,
+        contact_email,
+        logo_filename
+      FROM organization
+      WHERE organization_id = $1;
+    `;
 
-export { getAllOrganizations };
+      const query_params = [organizationId];
+      const result = await db.query(query, query_params);
+
+      // Return the first row of the result set, or null if no rows are found
+      return result.rows.length > 0 ? result.rows[0] : null;
+};
+// Export the model functions
+export { getAllOrganizations, getOrganizationDetails };

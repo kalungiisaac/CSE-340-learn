@@ -1,19 +1,18 @@
 <%- include('../partials/header') %>
 
-<main class="error-page">
-    <div class="page-card">
-        <h1><%= title %></h1>
-        <p>An unexpected error occurred. Our team has been notified.</p>
-
+<main class="error-page error-500">
+    <div class="error-container">
+        <div class="error-icon error-500-icon">💥</div>
+        <h1 class="error-code">500 Internal Server Error</h1>
+        <p class="error-message">Something went wrong on our end.<br>We're working to fix it as soon as possible.</p>
+        <a class="error-home-link" href="/">&larr; Back to Home</a>
         <% if (NODE_ENV === 'development') { %>
-            <section class="error-details">
-                <h2>Error Details</h2>
-                <p><strong>Message:</strong> <%= error %></p>
-                <pre><%= stack %></pre>
-            </section>
+            <details style="margin-top:2rem;">
+                <summary>Error Details (Development Only)</summary>
+                <pre class="error-details"><%= error %></pre>
+                <pre class="error-details"><%= stack %></pre>
+            </details>
         <% } %>
-
-        <p><a href="/">Return to home</a></p>
     </div>
 </main>
 

@@ -1,3 +1,84 @@
+.error-icon {
+    font-size: 4rem;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-shadow: 0 2px 8px rgba(44, 62, 80, 0.10);
+    animation: popIn 0.7s cubic-bezier(.68,-0.55,.27,1.55) 1;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+    60% { transform: scale(1.2) rotate(5deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+.error-404-icon {
+    color: #e67e22;
+}
+.error-500-icon {
+    color: #e74c3c;
+}
+/* Error Pages */
+.error-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+}
+
+.error-container {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+    padding: 3rem 2.5rem;
+    text-align: center;
+    max-width: 480px;
+    margin: 2rem auto;
+}
+
+.error-code {
+    font-size: 3rem;
+    color: #e74c3c;
+    margin-bottom: 1rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.error-message {
+    font-size: 1.2rem;
+    color: #34495e;
+    margin-bottom: 2rem;
+}
+
+.error-home-link {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: #3498db;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+.error-home-link:hover {
+    background: #217dbb;
+}
+
+.error-details {
+    background: #f8f8f8;
+    color: #c0392b;
+    border-radius: 6px;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+    text-align: left;
+    overflow-x: auto;
+}
 /* Main stylesheet for CSE 340 Service Network */
 
 * {

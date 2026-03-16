@@ -1,22 +1,24 @@
 <%- include('partials/header') %>
 
 <main class="projects-page">
+    <!-- PROJECTS VIEW v2 -->
     <h1><%= title %></h1>
 
     <h2>Our Service Projects</h2>
-    <p>Explore the various service projects available through our network.</p>
+    <p>Explore the next few upcoming service projects available through our network.</p>
 
-    <% if (!report.projects || report.projects.length === 0) { %>
+    <% if (!projects || projects.length === 0) { %>
         <div class="project-card">
-            <p>No service projects are available at this time.</p>
+            <p>No upcoming service projects are available at this time.</p>
         </div>
     <% } else { %>
         <div class="projects-container">
-            <% report.projects.forEach(project => { %>
+            <% projects.forEach(project => { %>
                 <div class="project-card">
-                    <h3><%= project.title %></h3>
-                    <% const formattedDate = project.project_date ? new Date(project.project_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Date TBD'; %>
-                    <p><strong><%= formattedDate %>:</strong> <%= project.title %> (<%= project.organization_name %>)</p>
+                    <h3><a href="/project/<%= project.project_id %>"><%= project.title %></a></h3>
+                    <% const formattedDate = project.date ? new Date(project.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Date TBD'; %>
+                    <p><strong>Date:</strong> <%= formattedDate %></p>
+                    <p><strong>Organization:</strong> <a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a></p>
                     <% if (project.description) { %>
                         <p><%= project.description %></p>
                     <% } %>
@@ -26,20 +28,6 @@
                 </div>
             <% }); %>
         </div>
-    <% } %>
-
-    <% if (report.upcomingProjects && report.upcomingProjects.length > 0) { %>
-        <section class="upcoming-projects">
-            <h3>Upcoming Projects</h3>
-            <ul>
-                <% report.upcomingProjects.forEach(p => { %>
-                    <li>
-                        <strong><%= p.organization %></strong> — <%= new Date(p.project_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>: <%= p.title %>
-                        <% if (p.location) { %> (<%= p.location %>)<% } %>
-                    </li>
-                <% }); %>
-            </ul>
-        </section>
     <% } %>
 </main>
 
