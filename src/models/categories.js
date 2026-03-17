@@ -43,8 +43,16 @@ const getProjectsByCategoryId = async (categoryId) => {
         WHERE pc.category_id = $1
         ORDER BY p.project_date;
     `;
-    const result = await db.query(query, [categoryId]);
-    return result.rows;
+    try {
+        const result = await db.query(query, [categoryId]);
+        return result.rows;
+    } catch (error) {
+        // If the join table doesn't exist yet, return an empty list instead of crashing.
+        if (error.code === '42P01') {
+            return [];
+        }
+        throw error;
+    }
 };
 
 export { getAllCategories, getCategoryById, getProjectsByCategoryId };

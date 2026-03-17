@@ -70,8 +70,16 @@ const getCategoriesByProjectId = async (projectId) => {
         WHERE pc.project_id = $1
         ORDER BY c.name;
     `;
-    const result = await db.query(query, [projectId]);
-    return result.rows;
+    try {
+        const result = await db.query(query, [projectId]);
+        return result.rows;
+    } catch (error) {
+        // If the join table doesn't exist yet, return an empty list instead of crashing.
+        if (error.code === '42P01') {
+            return [];
+        }
+        throw error;
+    }
 };
 
 const getUpcomingProjects = async (number_of_projects) => {
