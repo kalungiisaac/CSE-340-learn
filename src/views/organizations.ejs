@@ -1,24 +1,30 @@
 <%- include('partials/header') %>
 
 <main class="organizations-page">
-    <h1><%= title %></h1>
+    <div class="content-header">
+        <h1><%= title %></h1>
+        <div class="header-actions">
+            <a href="/new-organization" class="button">Add Organization</a>
+        </div>
+    </div>
 
     <p class="intro-text">Here are a few of our partner organizations:</p>
 
-    <div class="organizations-container">
+    <div class="organizations-grid">
         <% organizations.forEach(organization => { %>
             <div class="organization-card">
                 <div class="org-icon">
                     <img src="/images/<%= organization.logo_filename %>" alt="<%= organization.name %> Logo">
                 </div>
                 <div class="org-content">
-                    <h2><a href="/organization/<%= organization.organization_id %>"><%= organization.name %></a></h2>
+                    <h3><a href="/organization/<%= organization.organization_id %>"><%= organization.name %></a></h3>
                     <p><%= organization.description %></p>
-                    <p><a href="mailto:<%= organization.contact_email %>"><%= organization.contact_email %></a></p>
+                    <p class="contact-email"><a href="mailto:<%= organization.contact_email %>"><%= organization.contact_email %></a></p>
                 </div>
             </div>
         <% }); %>
     </div>
+    <p><a href="/new-organization">Add a new organization</a></p>
 </main>
 
 <%- include('partials/footer') %>

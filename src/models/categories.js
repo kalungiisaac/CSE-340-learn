@@ -55,4 +55,71 @@ const getProjectsByCategoryId = async (categoryId) => {
     }
 };
 
-export { getAllCategories, getCategoryById, getProjectsByCategoryId };
+// Get categories for a specific project
+const getCategoriesByServiceProjectId = async (projectId) => {
+    const query = `
+        SELECT c.category_id, c.name, c.description
+        FROM public.category c
+        JOIN public.project_categories pc ON c.category_id = pc.category_id
+        WHERE pc.project_id = $1
+        ORDER BY c.name;
+    `;
+    try {
+        const result = await db.query(query, [projectId]);
+        return result.rows;
+    } catch (error) {
+        if (error.code === '42P01') {
+            return [];
+        }
+        throw error;
+    }
+};
+
+const assignCategoryToProject = async (categoryId, projectId) => {
+    const query = `
+        INSERT INTO public.project_categories (category_id, project_id)
+        VALUES ($1, $2);
+    `;
+
+    await db.query(query, [categoryId, projectId]);
+}
+
+const updateCategoryAssignments = async (projectId, categoryIds) => {
+    // First, remove existing category assignments for the project
+    const deleteQuery = `
+        DELETE FROM public.project_categories
+        WHERE project_id = $1;
+    `;
+    await db.query(deleteQuery, [projectId]);
+
+    // Next, add the new category assignments
+    for (const categoryId of categoryIds) {
+        await assignCategoryToProject(categoryId, projectId);
+    }
+}
+
+const createCategory = async (name, description) => {
+    const query = `
+        INSERT INTO public.category (name, description)
+        VALUES ($1, $2)
+        RETURNING category_id;
+    `;
+    const result = await db.query(query, [name, description]);
+    return result.rows[0].category_id;
+};
+
+const updateCategory = async (categoryId, name, description) => {
+    const query = `
+        UPDATE public.category
+        SET name = $1, description = $2
+        WHERE category_id = $3
+        RETURNING category_id;
+    `;
+    const result = await db.query(query, [name, description, categoryId]);
+    if (result.rows.length === 0) {
+        throw new Error('Category not found');
+    }
+    return result.rows[0].category_id;
+};
+
+export { getAllCategories, getCategoryById, getProjectsByCategoryId, getCategoriesByServiceProjectId, updateCategoryAssignments, createCategory, updateCategory };

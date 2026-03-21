@@ -1,9 +1,13 @@
-<footer>
-        <p>&copy; <%= new Date().getFullYear() %> KALUNGI ISAAC Service Network.
-        <% if (NODE_ENV === 'development') { %>
-            
-        <% } %>
-        </p>
+    <footer>
+        <div class="footer-container">
+            <p>&copy; <%= new Date().getFullYear() %> Service Network. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/organizations">Organizations</a>
+                <a href="/projects">Projects</a>
+                <a href="/categories">Categories</a>
+            </div>
+        </div>
     </footer>
 </body>
 </html>

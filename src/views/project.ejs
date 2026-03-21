@@ -1,31 +1,84 @@
 <%- include('partials/header') %>
 
 <main class="project-details-page">
-    <h1><%= title %></h1>
+    <nav class="breadcrumb">
+        <a href="/projects">Projects</a>
+        <i data-lucide="chevron-right" class="icon-sm"></i>
+        <span><%= project ? project.title : 'Details' %></span>
+    </nav>
 
     <% if (!project) { %>
-        <p>Project not found.</p>
+        <div class="empty-state">
+            <i data-lucide="search-x" class="icon-lg"></i>
+            <p>Project not found.</p>
+            <a href="/projects" class="button">Back to All Projects</a>
+        </div>
     <% } else { %>
-        <section class="project-summary">
-            <h2><%= project.title %></h2>
+        <div class="project-grid">
+            <div class="project-main">
+                <header class="project-header">
+                    <span class="status-badge">Active Opportunity</span>
+                    <h1><%= project.title %></h1>
+                    <div class="org-attribution">
+                        <i data-lucide="building-2" class="icon-sm"></i>
+                        Hosted by <a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a>
+                    </div>
+                </header>
 
-            <% const formattedDate = project.date ? new Date(project.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Date TBD'; %>
-            <p><strong>Date:</strong> <%= formattedDate %></p>
-            <p><strong>Location:</strong> <%= project.location %></p>
+                <section class="project-section">
+                    <h3>About this Project</h3>
+                    <div class="description-content">
+                        <%= project.description %>
+                    </div>
+                </section>
 
-            <p><strong>Organization:</strong> <a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a></p>
+                <% if (categories && categories.length > 0) { %>
+                    <section class="project-section">
+                        <h3>Categories</h3>
+                        <div class="project-categories">
+                            <% categories.forEach(category => { %>
+                                <a class="category-tag" href="/category/<%= category.category_id %>">
+                                    <i data-lucide="tag" class="icon-xs"></i>
+                                    <%= category.name %>
+                                </a>
+                            <% }); %>
+                        </div>
+                    </section>
+                <% } %>
+            </div>
 
-            <h3>Description</h3>
-            <p><%= project.description %></p>
-            <% if (categories && categories.length > 0) { %>
-                <div class="project-categories">
-                    <strong>Categories:</strong>
-                    <% categories.forEach(category => { %>
-                        <a class="category-tag" href="/category/<%= category.category_id %>"><%= category.name %></a>
-                    <% }); %>
+            <aside class="project-sidebar">
+                <div class="sidebar-card">
+                    <h4>Key Details</h4>
+                    <div class="detail-item">
+                        <i data-lucide="calendar" class="icon-blue"></i>
+                        <div class="detail-text">
+                            <span class="label">Project Date</span>
+                            <span class="value"><%= project.date ? new Date(project.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : 'Date TBD' %></span>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <i data-lucide="map-pin" class="icon-blue"></i>
+                        <div class="detail-text">
+                            <span class="label">Location</span>
+                            <span class="value"><%= project.location %></span>
+                        </div>
+                    </div>
+
+                    <div class="project-actions">
+                        <a href="/edit-project/<%= project.project_id %>" class="button button-full">
+                            <i data-lucide="edit-2" class="icon-sm"></i>
+                            Edit Project
+                        </a>
+                        <a href="/assign-categories/<%= project.project_id %>" class="button button-outline button-full">
+                            <i data-lucide="settings" class="icon-sm"></i>
+                            Manage Categories
+                        </a>
+                    </div>
                 </div>
-            <% } %>
-        </section>
+            </aside>
+        </div>
     <% } %>
 </main>
 

@@ -83,7 +83,8 @@ const getCategoriesByProjectId = async (projectId) => {
 };
 
 const getUpcomingProjects = async (number_of_projects) => {
-    const upcomingQuery = `
+    // Show the most recent projects (both past and future) so the list is always populated
+    const query = `
         SELECT
             p.project_id,
             p.title,
@@ -94,34 +95,11 @@ const getUpcomingProjects = async (number_of_projects) => {
             o.name AS organization_name
         FROM public.service_project p
         JOIN public.organization o ON o.organization_id = p.organization_id
-        WHERE p.project_date >= CURRENT_DATE
-        ORDER BY p.project_date ASC
+        ORDER BY p.project_date DESC
         LIMIT $1;
     `;
 
-    const result = await db.query(upcomingQuery, [number_of_projects]);
-
-    // If there are no future projects, fall back to the most recent projects so the page isn't empty
-    if (result.rows.length === 0) {
-        const fallbackQuery = `
-            SELECT
-                p.project_id,
-                p.title,
-                p.description,
-                p.project_date AS date,
-                p.location,
-                p.organization_id,
-                o.name AS organization_name
-            FROM public.service_project p
-            JOIN public.organization o ON o.organization_id = p.organization_id
-            ORDER BY p.project_date DESC
-            LIMIT $1;
-        `;
-
-        const fallbackResult = await db.query(fallbackQuery, [number_of_projects]);
-        return fallbackResult.rows;
-    }
-
+    const result = await db.query(query, [number_of_projects]);
     return result.rows;
 };
 
@@ -162,5 +140,48 @@ const getProjectsByOrganizationId = async (organizationId) => {
 
       return result.rows;
 };
+const createProject = async (title, description, location, date, organizationId) => {
+    const query = `
+      INSERT INTO service_project (title, description, location, project_date, organization_id)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING project_id;
+    `;
+
+    const query_params = [title, description, location, date, organizationId];
+    const result = await db.query(query, query_params);
+
+    if (result.rows.length === 0) {
+        throw new Error('Failed to create project');
+    }
+
+    if (process.env.ENABLE_SQL_LOGGING === 'true') {
+        console.log('Created new project with ID:', result.rows[0].project_id);
+    }
+
+    return result.rows[0].project_id;
+}
+
+const updateProject = async (projectId, title, description, location, date, organizationId) => {
+    const query = `
+      UPDATE service_project
+      SET title = $1, description = $2, location = $3, project_date = $4, organization_id = $5
+      WHERE project_id = $6
+      RETURNING project_id;
+    `;
+
+    const query_params = [title, description, location, date, organizationId, projectId];
+    const result = await db.query(query, query_params);
+
+    if (result.rows.length === 0) {
+        throw new Error('Project not found');
+    }
+
+    if (process.env.ENABLE_SQL_LOGGING === 'true') {
+        console.log('Updated project with ID:', projectId);
+    }
+
+    return result.rows[0].project_id;
+};
+
 // Export the model functions
-export { getProjectsReport, getUpcomingProjects, getProjectDetails, getProjectsByOrganizationId, getCategoriesByProjectId };
+export { getProjectsReport, getUpcomingProjects, getProjectDetails, getProjectsByOrganizationId, getCategoriesByProjectId, createProject, updateProject };

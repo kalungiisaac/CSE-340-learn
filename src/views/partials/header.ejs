@@ -5,15 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
     <link rel="stylesheet" href="/css/main.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="/button.js" defer></script>
 </head>
 <body>
     <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/organizations">Organizations</a></li>
-            <li><a href="/projects">Projects</a></li>
-            <li><a href="/categories">Categories</a></li>
-           
-        </ul>
+        <div class="nav-container">
+            <a href="/" class="nav-brand">Service Network</a>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/organizations">Organizations</a></li>
+                <li><a href="/projects">Projects</a></li>
+                <li><a href="/categories">Categories</a></li>
+            </ul>
+        </div>
     </nav>
+    <div id="flash-messages">
+        <% if (typeof flash !== 'undefined') { %>
+            <% const messages = flash(); %>
+            <% Object.keys(messages).forEach(type => { %>
+                <% if (messages[type].length > 0) { %>
+                    <% messages[type].forEach(msg => { %>
+                        <div class="alert <%= type %>">
+                            <%= msg %>
+                        </div>
+                    <% }); %>
+                <% } %>
+            <% }); %>
+        <% } %>
+    </div>

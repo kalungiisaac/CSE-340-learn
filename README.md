@@ -69,7 +69,7 @@ nodemon
 ├── public/                # Static files (CSS, images)
 │   ├── css/
 │   ├── images/
-│   └── GEN.PY            # Utility script
+│               
 ├── src/
 │   ├── views/            # EJS templates
 │   │   ├── home.ejs
@@ -133,3 +133,4 @@ This project is licensed under the ISC License - see the LICENSE file for detail
 ## Support
 
 For issues and questions, please open an issue in the GitHub repository.
+

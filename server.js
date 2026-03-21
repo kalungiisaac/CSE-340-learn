@@ -1,10 +1,13 @@
 import 'dotenv/config';
 import express from 'express';
+import session from 'express-session';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { testConnection } from './src/models/db.js';
 import router from './src/controllers/routes.js';
+import flash from './src/middleware/flash.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -15,6 +18,21 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 /**
  * Middleware
  */
+// Set up session management
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60 * 60 * 1000 } // Session expires after 1 hour of inactivity
+}));
+
+// Use flash message middleware
+app.use(flash);
+
+// Allow Express to receive and process common POST data
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 /**
@@ -58,6 +76,11 @@ app.use((err, req, res, next) => {
     // Log error details for debugging
     console.error('Error occurred:', err.message);
     console.error('Stack trace:', err.stack);
+
+    // Provide a safe fallback for the flash function if it's missing
+    if (!res.locals.flash) {
+        res.locals.flash = () => ({ success: [], error: [], warning: [], info: [] });
+    }
 
     // Determine status and template 
     const status = err.status || 500;
