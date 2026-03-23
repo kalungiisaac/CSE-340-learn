@@ -6,20 +6,24 @@
     <title><%= title %></title>
     <link rel="stylesheet" href="/css/main.css">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="/button.js" defer></script>
+    <script src="/js/button.js" defer></script>
 </head>
 <body>
-    <nav>
-        <div class="nav-container">
-            <a href="/" class="nav-brand">Service Network</a>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/organizations">Organizations</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="/categories">Categories</a></li>
-            </ul>
-        </div>
-    </nav>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <a href="/" class="nav-brand">
+                    <i data-lucide="globe" class="icon-blue"></i>
+                    CSE 340 Service Network
+                </a>
+                <ul>
+                    <li><a href="/" class="<%= currentPath === '/' ? 'active' : '' %>" <%= currentPath === '/' ? 'aria-current="page"' : '' %>><i data-lucide="home" class="icon-sm"></i> Home</a></li>
+                    <li><a href="/organizations" class="<%= currentPath.startsWith('/organization') ? 'active' : '' %>" <%= currentPath.startsWith('/organization') ? 'aria-current="page"' : '' %>><i data-lucide="building-2" class="icon-sm"></i> Organizations</a></li>
+                    <li><a href="/projects" class="<%= currentPath.startsWith('/project') ? 'active' : '' %>" <%= currentPath.startsWith('/project') ? 'aria-current="page"' : '' %>><i data-lucide="briefcase" class="icon-sm"></i> Projects</a></li>
+                    <li><a href="/categories" class="<%= currentPath.startsWith('/categor') ? 'active' : '' %>" <%= currentPath.startsWith('/categor') ? 'aria-current="page"' : '' %>><i data-lucide="layers" class="icon-sm"></i> Categories</a></li>
+                </ul>            </div>
+        </nav>
+    </header>
     <div id="flash-messages">
         <% if (typeof flash !== 'undefined') { %>
             <% const messages = flash(); %>

@@ -7,6 +7,13 @@
         <span><%= project ? project.title : 'Details' %></span>
     </nav>
 
+    <div class="mb-6">
+        <a href="/projects" class="button button-outline">
+            <i data-lucide="arrow-left" class="icon-sm"></i>
+            Back to All Projects
+        </a>
+    </div>
+
     <% if (!project) { %>
         <div class="empty-state">
             <i data-lucide="search-x" class="icon-lg"></i>
@@ -67,7 +74,7 @@
                     </div>
 
                     <div class="project-actions">
-                        <a href="/edit-project/<%= project.project_id %>" class="button button-full">
+                        <a href="/edit-project/<%= project.project_id %>" class="button button-edit button-full">
                             <i data-lucide="edit-2" class="icon-sm"></i>
                             Edit Project
                         </a>

@@ -7,10 +7,17 @@
         <span><%= category.name %></span>
     </nav>
 
+    <div class="mb-6">
+        <a href="/categories" class="button button-outline">
+            <i data-lucide="arrow-left" class="icon-sm"></i>
+            Back to All Categories
+        </a>
+    </div>
+
     <div class="project-header">
         <h1><%= category.name %></h1>
         <div class="header-actions">
-            <a href="/edit-category/<%= category.category_id %>" class="button button-outline">
+            <a href="/edit-category/<%= category.category_id %>" class="button button-edit">
                 <i data-lucide="edit-2" class="icon-sm"></i>
                 Edit Category
             </a>
@@ -19,7 +26,7 @@
     
     <p class="description-content"><%= category.description %></p>
 
-    <div class="content-header" style="margin-top: 3rem;">
+    <div class="content-header mt-12">
         <h2>Projects in this Category</h2>
     </div>
 
