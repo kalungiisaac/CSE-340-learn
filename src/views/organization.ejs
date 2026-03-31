@@ -24,12 +24,14 @@
             <img src="/images/<%= organizationDetails.logo_filename %>" alt="<%= organizationDetails.name %> logo">
             <p>Description: <%= organizationDetails.description %></p>
             <p>Contact: <a href="mailto:<%= organizationDetails.contact_email %>"><%= organizationDetails.contact_email %></a></p>
-            <div class="mt-6">
-                <a href="/edit-organization/<%= organizationDetails.organization_id %>" class="button button-edit">
-                    <i data-lucide="edit-2" class="icon-sm"></i>
-                    Edit Organization
-                </a>
-            </div>
+            <% if (user && user.role_name === 'admin') { %>
+                <div class="mt-6">
+                    <a href="/edit-organization/<%= organizationDetails.organization_id %>" class="button button-edit">
+                        <i data-lucide="edit-2" class="icon-sm"></i>
+                        Edit Organization
+                    </a>
+                </div>
+            <% } %>
         </section>
 
         <section class="organization-projects">

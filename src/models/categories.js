@@ -1,21 +1,9 @@
 import db from './db.js';
 
-const tableExists = async (tableName) => {
-    const result = await db.query(
-        `SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = $1) AS exists`,
-        [tableName]
-    );
-    return result.rows[0]?.exists === true;
-};
-
 const getAllCategories = async () => {
-    if (!(await tableExists('category'))) {
-        throw new Error('Database table "category" does not exist');
-    }
-
     const query = `
         SELECT category_id, name, description
-        FROM public.category
+        FROM category
         ORDER BY name;
     `;
 
@@ -27,7 +15,7 @@ const getAllCategories = async () => {
 const getCategoryById = async (categoryId) => {
     const query = `
         SELECT category_id, name, description
-        FROM public.category
+        FROM category
         WHERE category_id = $1;
     `;
     const result = await db.query(query, [categoryId]);
@@ -37,9 +25,10 @@ const getCategoryById = async (categoryId) => {
 // Get all service projects for a given category
 const getProjectsByCategoryId = async (categoryId) => {
     const query = `
-        SELECT p.project_id, p.title, p.description, p.location, p.project_date, p.organization_id
-        FROM public.service_project p
-        JOIN public.project_categories pc ON p.project_id = pc.project_id
+        SELECT p.project_id, p.title, p.description, p.location, p.project_date, p.organization_id, o.name AS organization_name
+        FROM service_project p
+        JOIN project_categories pc ON p.project_id = pc.project_id
+        JOIN organization o ON p.organization_id = o.organization_id
         WHERE pc.category_id = $1
         ORDER BY p.project_date;
     `;
@@ -59,8 +48,8 @@ const getProjectsByCategoryId = async (categoryId) => {
 const getCategoriesByServiceProjectId = async (projectId) => {
     const query = `
         SELECT c.category_id, c.name, c.description
-        FROM public.category c
-        JOIN public.project_categories pc ON c.category_id = pc.category_id
+        FROM category c
+        JOIN project_categories pc ON c.category_id = pc.category_id
         WHERE pc.project_id = $1
         ORDER BY c.name;
     `;
@@ -77,7 +66,7 @@ const getCategoriesByServiceProjectId = async (projectId) => {
 
 const assignCategoryToProject = async (categoryId, projectId) => {
     const query = `
-        INSERT INTO public.project_categories (category_id, project_id)
+        INSERT INTO project_categories (category_id, project_id)
         VALUES ($1, $2);
     `;
 
@@ -87,7 +76,7 @@ const assignCategoryToProject = async (categoryId, projectId) => {
 const updateCategoryAssignments = async (projectId, categoryIds) => {
     // First, remove existing category assignments for the project
     const deleteQuery = `
-        DELETE FROM public.project_categories
+        DELETE FROM project_categories
         WHERE project_id = $1;
     `;
     await db.query(deleteQuery, [projectId]);
@@ -100,7 +89,7 @@ const updateCategoryAssignments = async (projectId, categoryIds) => {
 
 const createCategory = async (name, description) => {
     const query = `
-        INSERT INTO public.category (name, description)
+        INSERT INTO category (name, description)
         VALUES ($1, $2)
         RETURNING category_id;
     `;
@@ -110,7 +99,7 @@ const createCategory = async (name, description) => {
 
 const updateCategory = async (categoryId, name, description) => {
     const query = `
-        UPDATE public.category
+        UPDATE category
         SET name = $1, description = $2
         WHERE category_id = $3
         RETURNING category_id;

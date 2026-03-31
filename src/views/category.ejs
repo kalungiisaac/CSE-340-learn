@@ -17,10 +17,12 @@
     <div class="project-header">
         <h1><%= category.name %></h1>
         <div class="header-actions">
-            <a href="/edit-category/<%= category.category_id %>" class="button button-edit">
-                <i data-lucide="edit-2" class="icon-sm"></i>
-                Edit Category
-            </a>
+            <% if (user && user.role_name === 'admin') { %>
+                <a href="/edit-category/<%= category.category_id %>" class="button button-edit">
+                    <i data-lucide="edit-2" class="icon-sm"></i>
+                    Edit Category
+                </a>
+            <% } %>
         </div>
     </div>
     

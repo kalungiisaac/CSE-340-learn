@@ -54,6 +54,13 @@ app.use((req, res, next) => {
 
 // Middleware to make NODE_ENV and currentPath available to all templates
 app.use((req, res, next) => {
+    res.locals.isLoggedIn = false;
+    if (req.session && req.session.user) {
+        res.locals.isLoggedIn = true;
+    }
+
+    res.locals.user = req.session.user || null;
+
     res.locals.NODE_ENV = NODE_ENV;
     res.locals.currentPath = req.path;
     next();
@@ -89,7 +96,7 @@ app.use((err, req, res, next) => {
 
     // Prepare data for the template
     const context = {
-        title: status === 404 ? 'Page Not Found' : 'Server Error',
+        title: status === 404 ? 'Oops Page Not Found' : 'Server Error',
         error: err.message,
         stack: err.stack
     };

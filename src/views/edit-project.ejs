@@ -47,8 +47,12 @@
                     // Format date to YYYY-MM-DD for the date input
                     let formattedDate = '';
                     if (project.date) {
-                        const d = new Date(project.date);
-                        formattedDate = d.toISOString().split('T')[0];
+                        try {
+                            const d = new Date(project.date);
+                            formattedDate = d.toISOString().split('T')[0];
+                        } catch (e) {
+                            console.error('Date formatting error:', e);
+                        }
                     }
                 %>
                 <input

@@ -219,10 +219,32 @@ nav a:hover {
     text-decoration: none;
 }
 
-nav a.active {
-    background-color: #2d3748;
-    color: #63b3ed;
-    box-shadow: inset 0 -2px 0 0 #63b3ed;
+nav a.button, nav a.button-outline {
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    padding: 0.5rem 1.25rem;
+    margin-left: 0.5rem;
+}
+
+nav a.button {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+nav a.button:hover {
+    background: #1d4ed8;
+    color: #ffffff;
+}
+
+nav a.button-outline {
+    border: 1px solid #4a5568;
+    
+}
+
+nav a.button-outline:hover {
+    background: #2d3748;
+    border-color: #63b3ed;
+    color: #ffffff;
 }
 
 /* Main Content */
@@ -1177,6 +1199,41 @@ a:hover {
 
 .form-group {
     margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    padding-right: 3rem !important;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 1rem;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+    z-index: 10;
+}
+
+.password-toggle:hover {
+    color: #3182ce;
+}
+
+.password-toggle svg {
+    width: 20px;
+    height: 20px;
 }
 
 .form-group label {

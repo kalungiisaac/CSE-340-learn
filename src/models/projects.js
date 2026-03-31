@@ -11,22 +11,22 @@ const getProjectsReport = async () => {
             p.location,
             p.project_date,
             p.created_at
-        FROM public.service_project p
-        JOIN public.organization o ON o.organization_id = p.organization_id
+        FROM service_project p
+        JOIN organization o ON o.organization_id = p.organization_id
         ORDER BY o.name, p.project_date;
     `;
 
     const totalCountQuery = `
         SELECT COUNT(*) AS total_projects
-        FROM public.service_project;
+        FROM service_project;
     `;
 
     const countByOrgQuery = `
         SELECT
             o.name,
             COUNT(p.project_id) AS project_count
-        FROM public.organization o
-        LEFT JOIN public.service_project p ON o.organization_id = p.organization_id
+        FROM organization o
+        LEFT JOIN service_project p ON o.organization_id = p.organization_id
         GROUP BY o.organization_id, o.name
         ORDER BY project_count DESC;
     `;
@@ -38,8 +38,8 @@ const getProjectsReport = async () => {
             p.location,
             p.project_date,
             p.created_at
-        FROM public.service_project p
-        JOIN public.organization o ON o.organization_id = p.organization_id
+        FROM service_project p
+        JOIN organization o ON o.organization_id = p.organization_id
         WHERE p.project_date >= CURRENT_DATE
         ORDER BY p.project_date
         LIMIT 10;
@@ -65,8 +65,8 @@ const getProjectsReport = async () => {
 const getCategoriesByProjectId = async (projectId) => {
     const query = `
         SELECT c.category_id, c.name, c.description
-        FROM public.category c
-        JOIN public.project_categories pc ON c.category_id = pc.category_id
+        FROM category c
+        JOIN project_categories pc ON c.category_id = pc.category_id
         WHERE pc.project_id = $1
         ORDER BY c.name;
     `;
@@ -93,8 +93,8 @@ const getUpcomingProjects = async (number_of_projects) => {
             p.location,
             p.organization_id,
             o.name AS organization_name
-        FROM public.service_project p
-        JOIN public.organization o ON o.organization_id = p.organization_id
+        FROM service_project p
+        JOIN organization o ON o.organization_id = p.organization_id
         ORDER BY p.project_date DESC
         LIMIT $1;
     `;
@@ -113,8 +113,8 @@ const getProjectDetails = async (projectId) => {
             p.location,
             p.organization_id,
             o.name AS organization_name
-        FROM public.service_project p
-        JOIN public.organization o ON o.organization_id = p.organization_id
+        FROM service_project p
+        JOIN organization o ON o.organization_id = p.organization_id
         WHERE p.project_id = $1;
     `;
 

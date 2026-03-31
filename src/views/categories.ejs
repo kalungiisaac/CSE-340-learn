@@ -4,7 +4,9 @@
     <div class="content-header">
         <h1><%= title %></h1>
         <div class="header-actions">
-            <a href="/new-category" class="button">Add Category</a>
+            <% if (user && user.role_name === 'admin') { %>
+                <a href="/new-category" class="button">Add Category</a>
+            <% } %>
         </div>
     </div>
 
@@ -23,10 +25,12 @@
                     <p><%= category.description %></p>
                     <div class="card-actions justify-center">
                         <a href="/category/<%= category.category_id %>" class="button button-outline flex-1">View Projects</a>
-                        <a href="/edit-category/<%= category.category_id %>" class="button button-edit" title="Edit">
-                            <i data-lucide="edit-2" class="icon-sm"></i>
-                            Edit
-                        </a>
+                        <% if (user && user.role_name === 'admin') { %>
+                            <a href="/edit-category/<%= category.category_id %>" class="button button-edit" title="Edit">
+                                <i data-lucide="edit-2" class="icon-sm"></i>
+                                Edit
+                            </a>
+                        <% } %>
                     </div>
                 </div>
             <% }); %>

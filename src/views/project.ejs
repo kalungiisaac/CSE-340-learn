@@ -73,16 +73,18 @@
                         </div>
                     </div>
 
-                    <div class="project-actions">
-                        <a href="/edit-project/<%= project.project_id %>" class="button button-edit button-full">
-                            <i data-lucide="edit-2" class="icon-sm"></i>
-                            Edit Project
-                        </a>
-                        <a href="/assign-categories/<%= project.project_id %>" class="button button-outline button-full">
-                            <i data-lucide="settings" class="icon-sm"></i>
-                            Manage Categories
-                        </a>
-                    </div>
+                    <% if (user && user.role_name === 'admin') { %>
+                        <div class="project-actions">
+                            <a href="/edit-project/<%= project.project_id %>" class="button button-edit button-full">
+                                <i data-lucide="edit-2" class="icon-sm"></i>
+                                Edit Project
+                            </a>
+                            <a href="/assign-categories/<%= project.project_id %>" class="button button-outline button-full">
+                                <i data-lucide="settings" class="icon-sm"></i>
+                                Manage Categories
+                            </a>
+                        </div>
+                    <% } %>
                 </div>
             </aside>
         </div>

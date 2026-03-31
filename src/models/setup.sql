@@ -380,6 +380,30 @@ INSERT INTO project_categories (project_id, category_id) VALUES
 (20, 5);  -- Harvest Festival -> Food Security
 
 -- =====================================================
+-- CREATE ROLES TABLE
+-- =====================================================
+CREATE TABLE roles (
+    role_id SERIAL PRIMARY KEY,
+    role_name VARCHAR(50) NOT NULL UNIQUE
+);
+
+-- =====================================================
+-- CREATE USERS TABLE
+-- =====================================================
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    role_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (role_id) REFERENCES roles (role_id)
+);
+
+-- INSERT DEFAULT ROLES
+INSERT INTO roles (role_name) VALUES ('user'), ('admin');
+
+-- =====================================================
 -- VERIFY DATA
 -- =====================================================
 
