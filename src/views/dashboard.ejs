@@ -6,7 +6,8 @@
     <section class="dashboard-info">
         <h2>Welcome, <%= name %>!</h2>
         <p><strong>Name:</strong> <%= name %></p>
-        <p><strong>Email (Username):</strong> <%= email %></p>
+        <p><strong>Username:</strong> <%= typeof username !== 'undefined' ? username : user.username %></p>
+        <p><strong>Email:</strong> <%= email %></p>
     </section>
 
 </main>

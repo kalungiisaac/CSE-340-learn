@@ -48,7 +48,7 @@ const showUserRegistrationForm = (req, res) => {
 };
 
 const processUserRegistrationForm = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, username, password } = req.body;
 
     try {
         // Hash the password before storing it
@@ -56,7 +56,7 @@ const processUserRegistrationForm = async (req, res) => {
         const passwordHash = await bcrypt.hash(password, salt);
 
         // Create the user in the database
-        const userId = await createUser(name, email, passwordHash);
+        const userId = await createUser(name, email, username, passwordHash);
 
         // Redirect to the home page after successful registration
         req.flash('success', 'Registration successful! Please log in.');
@@ -73,10 +73,10 @@ const showLoginForm = (req, res) => {
 };
 
 const processLoginForm = async (req, res) => {
-    const { email, password } = req.body;
+    const { identifier, password } = req.body;
 
     try {
-        const user = await authenticateUser(email, password);
+        const user = await authenticateUser(identifier, password);
         if (user) {
             // Store user info in session
             req.session.user = user;
@@ -88,7 +88,7 @@ const processLoginForm = async (req, res) => {
 
             res.redirect('/dashboard');
         } else {
-            req.flash('error', 'Invalid email or password.');
+            req.flash('error', 'Invalid email/username or password.');
             res.redirect('/login');
         }
     } catch (error) {
@@ -120,7 +120,8 @@ const showDashboard = (req, res) => {
     res.render('dashboard', { 
         title: 'Dashboard',
         name: user.name,
-        email: user.email
+        email: user.email,
+        username: user.username
     });
 };
 
